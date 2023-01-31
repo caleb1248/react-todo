@@ -1,7 +1,7 @@
 import { Box, IconButton, TextField } from "@mui/material";
 import Delete from "@mui/icons-material/Delete";
 import { useState } from "react";
-export default function Todo({ todo }) {
+export default function Todo({ todo, onDelete }) {
   const [name, setName] = useState(todo.name);
 
   return (
@@ -34,7 +34,7 @@ export default function Todo({ todo }) {
             if (key == "Enter" || key == "Escape") target.blur();
           }}
         />
-        <IconButton sx={{ float: "right" }}>
+        <IconButton sx={{ float: "right" }} onClick={() => onDelete()}>
           <Delete />
         </IconButton>
       </Box>

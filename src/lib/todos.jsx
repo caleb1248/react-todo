@@ -1,5 +1,6 @@
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import Add from '@mui/icons-material/Add';
 import Droppable from "./droppable-strict";
 import { useState } from "react";
 import Todo from "./todo";
@@ -16,7 +17,7 @@ class TodoObject {
 }
 
 export default function Todos() {
-  const _todos = [new TodoObject(), Object.assign(new TodoObject(), {name: "ur mom"})];
+  const _todos = [];
 
   const [todos, setTodos] = useState(_todos);
   function handleOnDragEnd(result) {
@@ -27,36 +28,46 @@ export default function Todos() {
     setTodos(items);
   }
 
-  return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId="todos">
-        {(provided) => (
-          <Box
-            className="todos"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            sx={{
-              gap: "10px",
-            }}
-          >
-            {todos.map((todo, index) => (
-              <Draggable draggableId={todo.id} key={todo.id} index={index}>
-                {(provided) => (
-                  <Box
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <Todo todo={todo} />
-                  </Box>
-                )}
-              </Draggable>
-            ))}
+	function handleDelete(todo) {
+		const items = Array.from(todos);
+		items.splice(items.indexOf(todo), 1);
+		console.log(items)
+		setTodos(items);
+	}
 
-            {provided.placeholder}
-          </Box>
-        )}
-      </Droppable>
-    </DragDropContext>
+  return (
+    <>
+			<DragDropContext onDragEnd={handleOnDragEnd}>
+	      <Droppable droppableId="todos">
+	        {(provided) => (
+	          <Box
+	            className="todos"
+	            {...provided.droppableProps}
+	            ref={provided.innerRef}
+	            sx={{
+	              gap: "10px",
+	            }}
+	          >
+	            {todos.map((todo, index) => (
+	              <Draggable draggableId={todo.id} key={todo.id} index={index}>
+	                {(provided) => (
+	                  <Box
+	                    ref={provided.innerRef}
+	                    {...provided.draggableProps}
+	                    {...provided.dragHandleProps}
+	                  >
+	                    <Todo todo={todo} onDelete={() => handleDelete(todo)}/>
+	                  </Box>
+	                )}
+	              </Draggable>
+	            ))}
+	
+	            {provided.placeholder}
+	          </Box>
+	        )}
+	      </Droppable>
+	    </DragDropContext>
+			<IconButton sx={{position: "fixed", bottom: "1rem", right: "1rem"}} children={<Add/>} onClick={() => setTodos([...todos, new TodoObject])}/>
+		</>
   );
 }
