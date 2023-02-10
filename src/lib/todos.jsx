@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Todo from './todo';
 
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBR3UXL4WTJGLQQqHEsOULC3M-azptms_8',
