@@ -31,7 +31,9 @@ export default function Todo({ todo, onDelete, onNameChange }) {
               target.blur();
             }
           }}
-          onBlur={() => {
+
+          onChange={({target}) => setName(target.value)}
+          onBlur={({target}) => {
             onNameChange(target.value);
             setName(target.value);
           }}

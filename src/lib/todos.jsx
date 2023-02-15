@@ -2,11 +2,9 @@ import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { Box, IconButton, Button } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import Droppable from "./droppable-strict";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signIn } from "./account";
 import Todo from "./todo";
-import { useEffect } from "react";
-import { useRef } from "react";
 
 export default function Todos() {
   const init = [];
@@ -20,15 +18,12 @@ export default function Todos() {
     setTodos(items);
   }
 
-  let onUpdate = () => {};
+  let onUpdate = useRef(async () => {});
 
   useEffect(() => {
     if (dummyTodos.current == todos) {
-      alert("init");
     } else {
-      alert("change");
-      console.log(todos);
-      onUpdate(todos);
+      onUpdate.current(todos);
       dummyTodos.current = todos;
     }
   }, [todos]);
@@ -45,7 +40,7 @@ export default function Todos() {
         onClick={() =>
           signIn().then(({ todos, update }) => {
             setTodos(todos);
-            onUpdate = update;
+            onUpdate.current = update;
           })
         }
       >

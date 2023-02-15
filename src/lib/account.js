@@ -41,6 +41,7 @@ async function handleUser({ uid }) {
     todos: (await getDoc(userDoc)).data().todos,
     update: async (newTodos) => {
       await updateDoc(userDoc, { todos: newTodos });
+      console.log(newTodos);
     },
   };
 } 
